@@ -1,875 +1,742 @@
-```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MOSA DELTA | المنصة الأسطورية للسكربتات والتخطي</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
+    <title>MOSA DELTA | المنصة الأسطورية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Cairo & Fira Code -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        cyber: {
-                            dark: '#05070f',
-                            card: 'rgba(13, 18, 36, 0.75)',
-                            border: 'rgba(0, 243, 255, 0.2)',
-                            cyan: '#00f3ff',
-                            purple: '#9d4edd',
-                            neon: '#00ff88',
-                            pink: '#ff0055'
-                        }
-                    },
-                    fontFamily: {
-                        cairo: ['Cairo', 'sans-serif'],
-                        code: ['Fira Code', 'monospace']
-                    },
-                    animation: {
-                        'pulse-glow': 'pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'scanline': 'scanline 8s linear infinite',
-                        'float': 'float 3s ease-in-out infinite'
-                    },
-                    keyframes: {
-                        pulseGlow: {
-                            '0%, 100%': { opacity: 1, filter: 'drop-shadow(0 0 15px rgba(0, 243, 255, 0.6))' },
-                            '50%': { opacity: 0.7, filter: 'drop-shadow(0 0 5px rgba(0, 243, 255, 0.2))' }
-                        },
-                        scanline: {
-                            '0%': { transform: 'translateY(-100%)' },
-                            '100%': { transform: 'translateY(1000%)' }
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-10px)' }
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #03050a;
-            color: #e2e8f0;
-            overflow-x: hidden;
+        :root {
+            --bg-primary: #060812;
+            --bg-card: rgba(15, 23, 42, 0.75);
+            --bg-card-hover: rgba(30, 41, 59, 0.85);
+            --accent-cyan: #00f2fe;
+            --accent-blue: #4facfe;
+            --accent-purple: #7f00ff;
+            --accent-pink: #ff007f;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --radius-lg: 20px;
+            --radius-md: 12px;
         }
 
-        /* Glassmorphism Classes */
-        .glass-panel {
-            background: rgba(10, 15, 30, 0.7);
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 15% 15%, rgba(127, 0, 255, 0.12) 0%, transparent 45%), radial-gradient(circle at 85% 85%, rgba(0, 242, 254, 0.12) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(6, 8, 18, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 243, 255, 0.15);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 20px;
         }
 
-        .glass-card {
-            background: rgba(16, 23, 42, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--text-main);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .brand-logo i {
+            color: var(--accent-cyan);
+            filter: drop-shadow(0 0 8px var(--accent-cyan));
+        }
+
+        .brand-logo span {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
             transition: all 0.3s ease;
         }
 
-        .glass-card:hover {
-            border-color: rgba(0, 243, 255, 0.4);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
-            transform: translateY(-2px);
+        .nav-btn:hover {
+            color: var(--text-main);
         }
 
-        .cyber-btn {
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+        }
+
+        main {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 24px 16px;
+        }
+
+        .view-section {
+            display: none;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-banner {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 30px;
             position: relative;
-            background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(157, 78, 221, 0.2));
-            border: 1px solid rgba(0, 243, 255, 0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
         }
 
-        .cyber-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff 30%, var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 650px;
+            margin: 0 auto 24px;
+            line-height: 1.6;
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .action-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .action-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 10px 30px -10px rgba(0, 242, 254, 0.3);
+            background: var(--bg-card-hover);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+        }
+
+        .action-card:nth-child(2) .card-icon {
+            background: rgba(127, 0, 255, 0.1);
+            color: #a855f7;
+        }
+
+        .action-card:nth-child(3) .card-icon {
+            background: rgba(255, 0, 127, 0.1);
+            color: var(--accent-pink);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .card-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+            transition: all 0.3s;
+        }
+
+        .action-card:hover .card-btn {
+            background: var(--accent-cyan);
+            color: #000;
+            border-color: var(--accent-cyan);
+        }
+
+        .bypass-box {
+            max-width: 600px;
+            margin: 20px auto;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            padding: 30px 24px;
+            text-align: center;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 8px;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 6px;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .input-group input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px 14px;
+            color: #fff;
+            outline: none;
+            font-size: 0.95rem;
+            direction: ltr;
+        }
+
+        .btn-paste {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            padding: 0 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .btn-action {
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.3), transparent);
-            transition: 0.5s;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            border: none;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            color: #000;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
         }
 
-        .cyber-btn:hover::before {
-            left: 100%;
+        .btn-action:hover {
+            opacity: 0.9;
+            transform: scale(0.99);
         }
 
-        .cyber-btn:hover {
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
-            border-color: #00f3ff;
-            transform: translateY(-1px);
+        .result-box {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: var(--radius-md);
+            border: 1px dashed var(--accent-cyan);
+            display: none;
         }
 
-        .cyber-btn:active {
-            transform: scale(0.98);
+        .key-text {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1rem;
+            color: var(--accent-cyan);
+            word-break: break-all;
+            margin-bottom: 12px;
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #05070f;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #00f3ff33;
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #00f3ff88;
+        .ai-chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            height: 650px;
         }
 
-        /* Cyber grid background */
-        .cyber-grid {
-            background-size: 40px 40px;
-            background-image: 
-                linear-gradient(to right, rgba(0, 243, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+        .chat-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        /* Notification Toast */
-        #toast {
-            transition: transform 0.3s ease, opacity 0.3s ease;
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .msg {
+            max-width: 85%;
+            padding: 14px 18px;
+            border-radius: 16px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .msg.user {
+            align-self: flex-start;
+            background: linear-gradient(135deg, var(--accent-purple), #4a00e0);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+
+        .msg.ai {
+            align-self: flex-end;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            border-bottom-left-radius: 4px;
+        }
+
+        .code-block {
+            background: #000;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            direction: ltr;
+            text-align: left;
+            overflow-x: auto;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #00f2fe;
+        }
+
+        .chat-input-area {
+            padding: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: #fff;
+            outline: none;
+        }
+
+        footer {
+            margin-top: auto;
+            background: rgba(6, 8, 18, 0.95);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .stat-item span {
+            color: var(--accent-cyan);
+            font-weight: 800;
+        }
+
+        .copyright {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .copyright b {
+            color: var(--accent-cyan);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--accent-cyan);
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 800;
+            box-shadow: 0 10px 25px rgba(0, 242, 254, 0.4);
+            transition: all 0.3s ease;
+            z-index: 9999;
+            opacity: 0;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            .nav-tabs {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                border-radius: 0;
+                justify-content: space-around;
+                background: rgba(6, 8, 18, 0.95);
+                backdrop-filter: blur(10px);
+                z-index: 2000;
+                padding: 8px 4px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .nav-btn {
+                flex-direction: column;
+                gap: 3px;
+                font-size: 0.75rem;
+                padding: 6px 10px;
+            }
+            main {
+                padding-bottom: 70px;
+            }
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between cyber-grid relative selection:bg-cyber-cyan selection:text-black">
-
-    <!-- Glowing Background Orbs -->
-    <div class="fixed top-1/4 right-10 w-96 h-96 bg-cyber-cyan/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
-    <div class="fixed bottom-10 left-10 w-96 h-96 bg-cyber-purple/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
-
-    <!-- Notification Toast -->
-    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 transform -translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
-        <div class="glass-panel border-cyber-cyan px-6 py-3 rounded-xl flex items-center space-x-3 space-x-reverse shadow-lg shadow-cyber-cyan/20">
-            <i id="toast-icon" class="fas fa-check-circle text-cyber-neon text-xl"></i>
-            <span id="toast-message" class="text-sm font-bold text-white">تمت العملية بنجاح!</span>
-        </div>
-    </div>
-
-    <!-- Header Navigation -->
-    <header class="sticky top-0 z-40 glass-panel border-b border-cyber-border/40 px-4 lg:px-8 py-3">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            
-            <!-- Logo & Title -->
-            <div class="flex items-center space-x-3 space-x-reverse cursor-pointer" onclick="switchTab('hero-tab')">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyber-cyan to-cyber-purple p-0.5 shadow-lg shadow-cyber-cyan/30">
-                    <div class="w-full h-full bg-cyber-dark rounded-[10px] flex items-center justify-center">
-                        <i class="fas fa-[#00f3ff] fa-bolt text-cyber-cyan text-xl animate-pulse"></i>
-                    </div>
-                </div>
-                <div>
-                    <h1 class="text-xl font-black tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyber-cyan via-white to-cyber-purple">
-                        MOSA DELTA
-                    </h1>
-                    <p class="text-[10px] text-cyber-cyan/70 font-code tracking-widest">EXECUTOR & HUB</p>
-                </div>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="brand-logo" onclick="switchTab('home')">
+                <i class="fa-solid fa-bolt"></i>
+                <span>MOSA DELTA</span>
             </div>
 
-            <!-- Navigation Links (Desktop) -->
-            <nav class="hidden md:flex items-center space-x-1 space-x-reverse bg-cyber-dark/60 p-1 rounded-xl border border-white/5">
-                <button onclick="switchTab('hero-tab')" class="nav-btn active px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center space-x-2 space-x-reverse text-cyber-cyan bg-cyber-cyan/10 border border-cyber-cyan/30">
-                    <i class="fas fa-home text-xs"></i>
-                    <span>الرئيسية</span>
+            <nav class="nav-tabs">
+                <button class="nav-btn active" data-tab="home" onclick="switchTab('home')">
+                    <i class="fa-solid fa-house"></i> الرئيسية
                 </button>
-                <button onclick="switchTab('bypass-tab')" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition-all flex items-center space-x-2 space-x-reverse">
-                    <i class="fas fa-key text-xs"></i>
-                    <span>تخطي المفتاح</span>
+                <button class="nav-btn" data-tab="bypass" onclick="switchTab('bypass')">
+                    <i class="fa-solid fa-key"></i> التخطي
                 </button>
-                <button onclick="switchTab('ai-tab')" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition-all flex items-center space-x-2 space-x-reverse">
-                    <i class="fas fa-robot text-xs"></i>
-                    <span>Mosa AI</span>
+                <button class="nav-btn" data-tab="ai" onclick="switchTab('ai')">
+                    <i class="fa-solid fa-robot"></i> Mosa AI
                 </button>
-                <button onclick="switchTab('hub-tab')" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition-all flex items-center space-x-2 space-x-reverse">
-                    <i class="fas fa-code text-xs"></i>
-                    <span>مجتمع السكربتات</span>
-                </button>
-                <button onclick="switchTab('profile-tab')" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition-all flex items-center space-x-2 space-x-reverse">
-                    <i class="fas fa-user text-xs"></i>
-                    <span>البروفايل</span>
+                <button class="nav-btn" data-tab="scripts" onclick="switchTab('scripts')">
+                    <i class="fa-solid fa-code"></i> السكربتات
                 </button>
             </nav>
-
-            <!-- User Avatar & Quick Profile -->
-            <div class="flex items-center space-x-3 space-x-reverse">
-                <button onclick="switchTab('profile-tab')" class="flex items-center space-x-2 space-x-reverse p-1 rounded-full border border-cyber-cyan/40 hover:border-cyber-cyan transition-all">
-                    <img id="nav-avatar" src="https://placehold.co/100x100/0d1324/00f3ff?text=MOSA" alt="Profile" class="w-8 h-8 rounded-full object-cover">
-                    <span id="nav-username" class="text-xs font-bold text-gray-200 hidden sm:inline px-1">المستخدم</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Bottom Nav -->
-        <div class="md:hidden fixed bottom-0 left-0 right-0 z-50 glass-panel border-t border-cyber-border/40 px-2 py-2 flex justify-around items-center">
-            <button onclick="switchTab('hero-tab')" class="mobile-nav-btn text-cyber-cyan flex flex-col items-center p-1 text-xs">
-                <i class="fas fa-home text-base mb-0.5"></i>
-                <span>الرئيسية</span>
-            </button>
-            <button onclick="switchTab('bypass-tab')" class="mobile-nav-btn text-gray-400 flex flex-col items-center p-1 text-xs">
-                <i class="fas fa-key text-base mb-0.5"></i>
-                <span>التخطي</span>
-            </button>
-            <button onclick="switchTab('ai-tab')" class="mobile-nav-btn text-gray-400 flex flex-col items-center p-1 text-xs">
-                <i class="fas fa-robot text-base mb-0.5"></i>
-                <span>Mosa AI</span>
-            </button>
-            <button onclick="switchTab('hub-tab')" class="mobile-nav-btn text-gray-400 flex flex-col items-center p-1 text-xs">
-                <i class="fas fa-code text-base mb-0.5"></i>
-                <span>السكربتات</span>
-            </button>
-            <button onclick="switchTab('profile-tab')" class="mobile-nav-btn text-gray-400 flex flex-col items-center p-1 text-xs">
-                <i class="fas fa-user text-base mb-0.5"></i>
-                <span>حسابي</span>
-            </button>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <main class="max-w-7xl mx-auto px-4 lg:px-8 py-6 w-full flex-grow relative z-10 pb-24 md:pb-8">
-
-        <!-- SECTION 1: HERO / SPLASH PAGE -->
-        <section id="hero-tab" class="tab-content block transition-all duration-300">
-            <div class="text-center py-10 lg:py-16 space-y-8">
-                
-                <!-- Badge -->
-                <div class="inline-flex items-center space-x-2 space-x-reverse glass-panel border-cyber-cyan/40 px-4 py-1.5 rounded-full text-xs text-cyber-cyan animate-float">
-                    <span class="w-2 h-2 rounded-full bg-cyber-neon animate-ping"></span>
-                    <span class="font-bold">الإصدار الأسطوري الرسمي v3.5 | الحقوق لـ MOSA DELTA</span>
-                </div>
-
-                <!-- Main Heading -->
-                <div class="space-y-4 max-w-4xl mx-auto">
-                    <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-tight">
-                        منصة <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyber-cyan via-white to-cyber-purple drop-shadow-[0_0_35px_rgba(0,243,255,0.6)]">MOSA DELTA</span> الفائقة
-                    </h1>
-                    <p class="text-base md:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-                        الأداة الشاملة لتخطي مفاتيح دلتا (Delta Bypass)، توليد سكربتات روبلوكس بالذكاء الاصطناعي Mosa AI، ومكتبة السكربتات الخالية من الإعلانات المزعجة.
-                    </p>
-                </div>
-
-                <!-- Quick Action Grid Buttons -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto pt-6">
-                    
-                    <button onclick="switchTab('bypass-tab')" class="cyber-btn p-6 rounded-2xl glass-card text-right flex flex-col justify-between space-y-4 group">
-                        <div class="w-12 h-12 rounded-xl bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center text-cyber-cyan group-hover:bg-cyber-cyan group-hover:text-black transition-all">
-                            <i class="fas fa-bolt text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-lg text-white group-hover:text-cyber-cyan transition-colors">تخطي مفتاح Delta</h3>
-                            <p class="text-xs text-gray-400 mt-1">تخطي الروابط واستخراج المفتاح بثوانٍ فورية بدون إعلانات.</p>
-                        </div>
-                        <span class="text-xs font-bold text-cyber-cyan flex items-center space-x-1 space-x-reverse">
-                            <span>ابدأ التخطي الان</span>
-                            <i class="fas fa-arrow-left text-[10px]"></i>
-                        </span>
-                    </button>
-
-                    <button onclick="switchTab('ai-tab')" class="cyber-btn p-6 rounded-2xl glass-card text-right flex flex-col justify-between space-y-4 group">
-                        <div class="w-12 h-12 rounded-xl bg-cyber-purple/10 border border-cyber-purple/30 flex items-center justify-center text-cyber-purple group-hover:bg-cyber-purple group-hover:text-black transition-all">
-                            <i class="fas fa-robot text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-lg text-white group-hover:text-cyber-purple transition-colors">مساعد Mosa AI</h3>
-                            <p class="text-xs text-gray-400 mt-1">إنشاء وسكربتة أكواد Luau وروبلوكس الجاهزة للاستعمال.</p>
-                        </div>
-                        <span class="text-xs font-bold text-cyber-purple flex items-center space-x-1 space-x-reverse">
-                            <span>جرب الذكاء الاصطناعي</span>
-                            <i class="fas fa-arrow-left text-[10px]"></i>
-                        </span>
-                    </button>
-
-                    <button onclick="switchTab('hub-tab')" class="cyber-btn p-6 rounded-2xl glass-card text-right flex flex-col justify-between space-y-4 group">
-                        <div class="w-12 h-12 rounded-xl bg-cyber-neon/10 border border-cyber-neon/30 flex items-center justify-center text-cyber-neon group-hover:bg-cyber-neon group-hover:text-black transition-all">
-                            <i class="fas fa-code text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-lg text-white group-hover:text-cyber-neon transition-colors">مجتمع السكربتات</h3>
-                            <p class="text-xs text-gray-400 mt-1">تصفح أقوى السكربتات (بمفتاح وبدون مفتاح) ونشر سكربتك.</p>
-                        </div>
-                        <span class="text-xs font-bold text-cyber-neon flex items-center space-x-1 space-x-reverse">
-                            <span>استكشف المكتبة</span>
-                            <i class="fas fa-arrow-left text-[10px]"></i>
-                        </span>
-                    </button>
-
-                    <button onclick="switchTab('profile-tab')" class="cyber-btn p-6 rounded-2xl glass-card text-right flex flex-col justify-between space-y-4 group">
-                        <div class="w-12 h-12 rounded-xl bg-cyber-pink/10 border border-cyber-pink/30 flex items-center justify-center text-cyber-pink group-hover:bg-cyber-pink group-hover:text-black transition-all">
-                            <i class="fas fa-id-card text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-lg text-white group-hover:text-cyber-pink transition-colors">الملف الشخصي</h3>
-                            <p class="text-xs text-gray-400 mt-1">تغيير صورة بروفايلك من الاستوديو وتخصيص معلوماتك.</p>
-                        </div>
-                        <span class="text-xs font-bold text-cyber-pink flex items-center space-x-1 space-x-reverse">
-                            <span>إدارة البروفايل</span>
-                            <i class="fas fa-arrow-left text-[10px]"></i>
-                        </span>
-                    </button>
-
-                </div>
-
-                <!-- Verified Security Info Section -->
-                <div class="max-w-4xl mx-auto pt-8">
-                    <div class="glass-panel p-6 rounded-2xl border border-cyber-cyan/20 flex flex-col md:flex-row items-center justify-between gap-6">
-                        <div class="flex items-center space-x-4 space-x-reverse text-right">
-                            <div class="w-14 h-14 rounded-2xl bg-cyber-cyan/10 border border-cyber-cyan/40 flex items-center justify-center text-cyber-cyan text-2xl flex-shrink-0">
-                                <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-white text-base">نظام آمن وموثوق 100%</h4>
-                                <p class="text-xs text-gray-400 mt-0.5">كافة السكربتات وأدوات التخطي مجربة ومفحوصة ضد الحظر وحصرياً تحت إدارة <b>MOSA DELTA</b>.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-2 space-x-reverse">
-                            <span class="text-xs font-mono bg-cyber-cyan/10 text-cyber-cyan px-3 py-1.5 rounded-lg border border-cyber-cyan/30">DELTA EXECUTOR READY</span>
-                        </div>
-                    </div>
-                </div>
-
+    <main>
+        <section id="home" class="view-section active">
+            <div class="hero-banner">
+                <h1 class="hero-title">منصة MOSA DELTA الفائقة</h1>
+                <p class="hero-subtitle">الأداة الشاملة لتخطي مفاتيح دلتا (Delta Bypass)، توليد سكربتات روبلوكس بالذكاء الاصطناعي Mosa AI، ومكتبة السكربتات الخالية من الإعلانات المزعجة.</p>
             </div>
-        </section>
 
-        <!-- SECTION 2: DELTA KEY BYPASS -->
-        <section id="bypass-tab" class="tab-content hidden transition-all duration-300">
-            <div class="max-w-3xl mx-auto space-y-6 py-4">
-                
-                <div class="text-center space-y-2">
-                    <div class="inline-flex items-center space-x-2 space-x-reverse text-cyber-cyan bg-cyber-cyan/10 px-3 py-1 rounded-full text-xs font-bold border border-cyber-cyan/30">
-                        <i class="fas fa-bolt"></i>
-                        <span>DELTA KEY BYPASS SYSTEM</span>
+            <div class="grid-cards">
+                <div class="action-card" onclick="switchTab('bypass')">
+                    <div>
+                        <div class="card-icon"><i class="fa-solid fa-bolt"></i></div>
+                        <h3 class="card-title">تخطي مفتاح Delta</h3>
+                        <p class="card-desc">أدخل الرابط واستخرج المفتاح فوراً بثوانٍ معدودة بدون إعلانات إضافية.</p>
                     </div>
-                    <h2 class="text-3xl font-black text-white">تخطي رابط مفتاح Delta Executor</h2>
-                    <p class="text-xs text-gray-400">ضع رابط Key System الخاص بك وسيتم فكه واستخراج المفتاح لك مباشرة.</p>
+                    <button class="card-btn">إبدأ التخطي الآن <i class="fa-solid fa-arrow-left"></i></button>
                 </div>
 
-                <div class="glass-panel p-6 md:p-8 rounded-3xl space-y-6">
-                    
-                    <!-- Input field with paste button -->
-                    <div class="space-y-2">
-                        <label class="block text-xs font-bold text-cyber-cyan text-right">رابط المفتاح (Gateway Link):</label>
-                        <div class="relative flex items-center">
-                            <input type="text" id="bypass-url-input" placeholder="https://gateway.platoboost.com/a/8?id=..." class="w-full bg-cyber-dark/80 border border-cyber-border focus:border-cyber-cyan rounded-xl px-4 py-3.5 text-sm font-code text-white pl-24 focus:outline-none focus:ring-1 focus:ring-cyber-cyan transition-all">
-                            <button onclick="pasteClipboardToInput('bypass-url-input')" class="absolute left-2 px-3 py-1.5 bg-cyber-cyan/20 hover:bg-cyber-cyan/30 border border-cyber-cyan/40 text-cyber-cyan text-xs font-bold rounded-lg transition-all flex items-center space-x-1 space-x-reverse">
-                                <i class="fas fa-paste text-[10px]"></i>
-                                <span>لصق</span>
-                            </button>
-                        </div>
+                <div class="action-card" onclick="switchTab('ai')">
+                    <div>
+                        <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
+                        <h3 class="card-title">مساعد Mosa AI</h3>
+                        <p class="card-desc">أنشئ وسكربتات كود Luau وروبلوكس الجاهزة للاستعمال بدون أخطاء.</p>
                     </div>
-
-                    <!-- Bypass Action Button -->
-                    <button onclick="startBypassProcess()" id="bypass-submit-btn" class="w-full py-4 rounded-xl font-bold text-black bg-gradient-to-r from-cyber-cyan via-cyber-neon to-cyber-cyan hover:opacity-95 transition-all shadow-lg shadow-cyber-cyan/20 flex items-center justify-center space-x-2 space-x-reverse">
-                        <i class="fas fa-unlock text-lg"></i>
-                        <span class="text-base">استخراج وتخطي المفتاح الآن</span>
-                    </button>
-
-                    <!-- Animated Progress Bar (Hidden by default) -->
-                    <div id="bypass-progress-container" class="hidden space-y-2 pt-2">
-                        <div class="flex justify-between text-xs font-bold">
-                            <span id="bypass-status-text" class="text-cyber-cyan flex items-center space-x-2 space-x-reverse">
-                                <i class="fas fa-spinner fa-spin"></i>
-                                <span>جاري الاتصال بالسيرفرات وفك التشفير...</span>
-                            </span>
-                            <span id="bypass-percent-text" class="text-cyber-neon font-code">0%</span>
-                        </div>
-                        <div class="w-full h-3 bg-cyber-dark rounded-full overflow-hidden border border-cyber-border/40 p-0.5">
-                            <div id="bypass-progress-bar" class="h-full bg-gradient-to-r from-cyber-cyan to-cyber-neon rounded-full w-0 transition-all duration-300"></div>
-                        </div>
-                    </div>
-
-                    <!-- Key Result Box (Hidden by default) -->
-                    <div id="bypass-result-card" class="hidden glass-card p-6 rounded-2xl border-cyber-neon/40 space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-cyber-neon flex items-center space-x-1.5 space-x-reverse">
-                                <i class="fas fa-check-circle"></i>
-                                <span>تم استخراج المفتاح بنجاح!</span>
-                            </span>
-                            <span class="text-[10px] text-gray-400 font-mono">MOSA DELTA VERIFIED</span>
-                        </div>
-
-                        <div class="bg-cyber-dark p-4 rounded-xl border border-cyber-border/60 flex items-center justify-between">
-                            <code id="extracted-key-text" class="text-cyber-cyan font-code text-sm font-bold break-all">KEY_DELTA_MOSA_389201948102938</code>
-                            <button onclick="copyToClipboard(document.getElementById('extracted-key-text').innerText, 'تم نسخ المفتاح بنجاح!')" class="mr-2 px-4 py-2 bg-cyber-cyan text-black font-bold text-xs rounded-lg hover:bg-cyber-cyan/90 transition-all flex items-center space-x-1.5 space-x-reverse flex-shrink-0">
-                                <i class="fas fa-copy"></i>
-                                <span>نسخ</span>
-                            </button>
-                        </div>
-
-                        <p class="text-[11px] text-gray-400">انسخ المفتاح ثم افتح تطبيق Delta Executor في روبلوكس والصقه ليعمل معك فوراً.</p>
-                    </div>
-
+                    <button class="card-btn">جرب الذكاء الاصطناعي <i class="fa-solid fa-arrow-left"></i></button>
                 </div>
 
-            </div>
-        </section>
-
-        <!-- SECTION 3: AI ASSISTANT (MOSA AI) -->
-        <section id="ai-tab" class="tab-content hidden transition-all duration-300">
-            <div class="max-w-4xl mx-auto space-y-4 py-2">
-                
-                <!-- AI Header & Controls -->
-                <div class="glass-panel p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div class="flex items-center space-x-3 space-x-reverse">
-                        <div class="w-10 h-10 rounded-xl bg-cyber-purple/20 border border-cyber-purple/40 flex items-center justify-center text-cyber-purple text-xl">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-white text-sm">مساعد Mosa AI لصناعة السكربتات</h3>
-                            <p class="text-[11px] text-gray-400">مخصص لبرمجة وتوليد أكواد Luau لـ Roblox & Delta Executor</p>
-                        </div>
+                <div class="action-card" onclick="switchTab('scripts')">
+                    <div>
+                        <div class="card-icon"><i class="fa-solid fa-code"></i></div>
+                        <h3 class="card-title">مجتمع السكربتات</h3>
+                        <p class="card-desc">تصفح أقوى السكربتات الموثوقة وبدون مفتاح وتصفح مشاركات المجتمع.</p>
                     </div>
-                    <div class="flex items-center space-x-2 space-x-reverse">
-                        <button onclick="clearChatHistory()" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg text-xs font-bold transition-all flex items-center space-x-1 space-x-reverse">
-                            <i class="fas fa-trash-alt text-[10px]"></i>
-                            <span>مسح المحادثة</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Chat Box Screen -->
-                <div class="glass-panel rounded-3xl p-4 md:p-6 h-[500px] flex flex-col justify-between space-y-4">
-                    
-                    <!-- Chat Messages Log Container -->
-                    <div id="chat-messages" class="flex-grow overflow-y-auto space-y-4 px-2">
-                        
-                        <!-- AI Initial Welcome Message -->
-                        <div class="flex items-start space-x-3 space-x-reverse">
-                            <div class="w-8 h-8 rounded-lg bg-cyber-purple/30 border border-cyber-purple/50 flex items-center justify-center text-cyber-purple text-xs flex-shrink-0 mt-1">
-                                <i class="fas fa-robot"></i>
-                            </div>
-                            <div class="glass-card p-4 rounded-2xl rounded-tr-none max-w-2xl border-cyber-purple/20 space-y-2">
-                                <p class="text-xs text-gray-200 leading-relaxed">
-                                    أهلاً بك! أنا <b>Mosa AI</b>، المساعد الذكي الخاص بموقع <b>MOSA DELTA</b>. 
-                                    كيف يمكنني مساعدتك في روبلوكس اليوم؟ يمكنني كتابة سكربتات Luau مخصصة، تصميم واجهات Rayfield أو Orion UI، أو شرح الأكواد.
-                                </p>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- Chat Input Area -->
-                    <div class="relative flex items-center pt-2">
-                        <textarea id="ai-user-input" rows="1" placeholder="اطلب السكربت الذي تريده (مثلاً: اكتب لي سكربت Speed & Jump GUI لـ Roblox)..." class="w-full bg-cyber-dark border border-cyber-border focus:border-cyber-purple rounded-2xl px-4 py-3.5 text-xs text-white pl-28 focus:outline-none focus:ring-1 focus:ring-cyber-purple resize-none"></textarea>
-                        
-                        <div class="absolute left-2 flex items-center space-x-1 space-x-reverse">
-                            <button onclick="sendChatMessage()" id="send-ai-btn" class="px-4 py-2 bg-gradient-to-r from-cyber-purple to-cyber-cyan text-white text-xs font-bold rounded-xl hover:opacity-90 transition-all shadow-md shadow-cyber-purple/20 flex items-center space-x-1.5 space-x-reverse">
-                                <span>إرسال</span>
-                                <i class="fas fa-paper-plane text-[10px]"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </section>
-
-        <!-- SECTION 4: SCRIPT HUB & COMMUNITY -->
-        <section id="hub-tab" class="tab-content hidden transition-all duration-300">
-            <div class="space-y-6 py-2">
-                
-                <!-- Hub Header & Action Buttons -->
-                <div class="flex flex-col md:flex-row items-center justify-between gap-4 glass-panel p-6 rounded-3xl">
-                    <div class="space-y-1 text-center md:text-right">
-                        <h2 class="text-2xl font-black text-white">مجتمع السكربتات والمكتبة</h2>
-                        <p class="text-xs text-gray-400">تصفح أحدث السكربتات الموثوقة أو شارك سكربتك الخاص مع مجتمع MOSA DELTA</p>
-                    </div>
-                    
-                    <div class="flex items-center space-x-2 space-x-reverse">
-                        <button onclick="openPublishModal()" class="px-5 py-2.5 bg-cyber-cyan text-black font-bold text-xs rounded-xl hover:bg-cyber-cyan/90 transition-all shadow-lg shadow-cyber-cyan/20 flex items-center space-x-2 space-x-reverse">
-                            <i class="fas fa-plus"></i>
-                            <span>نشر سكربت جديد</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Filters & Search Bar -->
-                <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-                    <div class="relative w-full sm:w-80">
-                        <input type="text" id="script-search" onkeyup="filterScripts()" placeholder="بحث عن اسم الماب أو السكربت..." class="w-full bg-cyber-dark/80 border border-cyber-border rounded-xl px-4 py-2.5 text-xs text-white pr-9 focus:outline-none focus:border-cyber-cyan">
-                        <i class="fas fa-search absolute right-3 top-3 text-xs text-gray-400"></i>
-                    </div>
-
-                    <div class="flex items-center space-x-2 space-x-reverse w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
-                        <button onclick="filterCategory('all')" class="script-filter-btn active px-3 py-1.5 rounded-lg text-xs font-bold bg-cyber-cyan/20 text-cyber-cyan border border-cyber-cyan/40">الكل</button>
-                        <button onclick="filterCategory('nokey')" class="script-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-cyber-dark text-gray-400 hover:text-white border border-white/5">بدون مفتاح</button>
-                        <button onclick="filterCategory('key')" class="script-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-cyber-dark text-gray-400 hover:text-white border border-white/5">بمفتاح</button>
-                    </div>
-                </div>
-
-                <!-- Scripts Grid Container -->
-                <div id="scripts-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Dynamic Scripts Loaded via JS -->
-                </div>
-
-            </div>
-        </section>
-
-        <!-- SECTION 5: PROFILE PAGE -->
-        <section id="profile-tab" class="tab-content hidden transition-all duration-300">
-            <div class="max-w-2xl mx-auto py-4">
-                <div class="glass-panel p-6 md:p-8 rounded-3xl space-y-6 relative overflow-hidden">
-                    
-                    <!-- Cover Header -->
-                    <div class="h-28 rounded-2xl bg-gradient-to-r from-cyber-cyan/20 via-cyber-purple/20 to-cyber-pink/20 border border-cyber-border/40 relative">
-                        <div class="absolute -bottom-8 right-6 flex items-end space-x-4 space-x-reverse">
-                            <div class="relative group">
-                                <img id="profile-page-avatar" src="https://placehold.co/120x120/0d1324/00f3ff?text=MOSA" class="w-20 h-20 rounded-2xl object-cover border-2 border-cyber-cyan shadow-xl bg-cyber-dark">
-                                <label for="avatar-file-input" class="absolute inset-0 bg-black/60 rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-all">
-                                    <i class="fas fa-camera text-cyber-cyan text-lg"></i>
-                                </label>
-                                <input type="file" id="avatar-file-input" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Profile Info & Form -->
-                    <div class="pt-6 space-y-4">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h3 id="profile-display-name" class="text-xl font-bold text-white">المستخدم</h3>
-                                <p class="text-xs text-cyber-cyan font-mono">عضو مسجل في MOSA DELTA</p>
-                            </div>
-                            <span class="text-[10px] bg-cyber-neon/10 text-cyber-neon border border-cyber-neon/30 px-3 py-1 rounded-full font-bold">نشط الآن</span>
-                        </div>
-
-                        <hr class="border-white/10">
-
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-bold text-gray-300 mb-1">اسم المستخدم:</label>
-                                <input type="text" id="username-input" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-cyber-cyan">
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-bold text-gray-300 mb-1">النبذة الشخصية (Bio):</label>
-                                <textarea id="bio-input" rows="3" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-cyber-cyan resize-none" placeholder="اكتب نبذة قصيرة عنك..."></textarea>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-bold text-gray-300 mb-1">صورة البروفايل من الاستوديو:</label>
-                                <button onclick="document.getElementById('avatar-file-input').click()" class="w-full py-2.5 bg-cyber-dark border border-dashed border-cyber-cyan/50 hover:border-cyber-cyan rounded-xl text-xs text-cyber-cyan font-bold transition-all flex items-center justify-center space-x-2 space-x-reverse">
-                                    <i class="fas fa-image"></i>
-                                    <span>اختيار صورة جديدة من الجهاز</span>
-                                </button>
-                            </div>
-
-                            <button onclick="saveProfileChanges()" class="w-full py-3 bg-gradient-to-r from-cyber-cyan to-cyber-purple text-black font-bold text-xs rounded-xl hover:opacity-90 transition-all shadow-lg shadow-cyber-cyan/20">
-                                حفظ التعديلات
-                            </button>
-                        </div>
-                    </div>
-
+                    <button class="card-btn">استكشف المكتبة <i class="fa-solid fa-arrow-left"></i></button>
                 </div>
             </div>
         </section>
 
+        <section id="bypass" class="view-section">
+            <div class="bypass-box">
+                <h2><i class="fa-solid fa-key" style="color:var(--accent-cyan)"></i> استخراج مفتاح Delta</h2>
+                <p style="color:var(--text-muted); margin-top: 8px;">ضع رابط Delta Keysystem للحصول على المفتاح فوراً</p>
+
+                <div class="input-group">
+                    <input type="text" id="bypassUrl" placeholder="https://auth.platorelay.com/..." dir="ltr">
+                    <button class="btn-paste" onclick="pasteClipboard()"><i class="fa-solid fa-paste"></i> لصق</button>
+                </div>
+
+                <button class="btn-action" onclick="startBypass()">ابدأ عمل المفتاح</button>
+
+                <div id="resultBox" class="result-box">
+                    <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px;">المفتاح الخاص بك:</div>
+                    <div class="key-text" id="keyOutput">FREE_4a6afc6f546df3a2454cce5d8728e428</div>
+                    <button class="card-btn" onclick="copyKey()" style="width: 100%; justify-content: center;">
+                        <i class="fa-solid fa-copy"></i> نسخ المفتاح
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai" class="view-section">
+            <div class="ai-chat-container">
+                <div class="chat-header">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <i class="fa-solid fa-robot" style="color:var(--accent-cyan); font-size:1.3rem;"></i>
+                        <span style="font-weight:800;">Mosa AI - مبرمج السكربتات</span>
+                    </div>
+                    <button class="nav-btn" onclick="clearChat()"><i class="fa-solid fa-trash"></i> مسح</button>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <div class="msg ai">أهلاً بك يا بطل! أنا Mosa AI المساعد الخاص بك لكتابة وتوليد أحدث سكربتات Luau وروبلوكس بدقة وبدون أخطاء. ماذا تريد أن نبرمج اليوم؟</div>
+                </div>
+
+                <div class="chat-input-area">
+                    <input type="text" id="userInput" placeholder="اطلب سكربت (مثال: اصنع لي سكربت طيران مع واجهة)..." onkeydown="if(event.key==='Enter') sendMessage()">
+                    <button class="btn-action" style="width: auto; padding: 0 20px;" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <section id="scripts" class="view-section">
+            <h2 style="margin-bottom: 20px;"><i class="fa-solid fa-code" style="color:var(--accent-cyan)"></i> السكربتات الموثوقة</h2>
+            <div class="grid-cards">
+                <div class="action-card">
+                    <div>
+                        <span style="background:rgba(0,242,254,0.15); color:var(--accent-cyan); padding:4px 8px; border-radius:6px; font-size:0.75rem; font-weight:800;">بدون مفتاح</span>
+                        <h3 class="card-title" style="margin-top:10px;">Blox Fruits Hub</h3>
+                        <p class="card-desc">سكربت التجميع التلقائي وتلفيل الفواكه والمهمات لـ Blox Fruits.</p>
+                    </div>
+                    <button class="card-btn" onclick="copyScriptText('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/edgeiy/infiniteyield/master/source\'))()')"><i class="fa-solid fa-copy"></i> نسخ السكربت</button>
+                </div>
+
+                <div class="action-card">
+                    <div>
+                        <span style="background:rgba(255,0,127,0.15); color:var(--accent-pink); padding:4px 8px; border-radius:6px; font-size:0.75rem; font-weight:800;">بمفتاح</span>
+                        <h3 class="card-title" style="margin-top:10px;">MM2 Silent Aim</h3>
+                        <p class="card-desc">سكربت Murder Mystery 2 لكشف الأماكن والتصويب التلقائي.</p>
+                    </div>
+                    <button class="card-btn" onclick="copyScriptText('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/MOSADELTA/MM2/main/script.lua\'))()')"><i class="fa-solid fa-copy"></i> نسخ السكربت</button>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- PUBLISH SCRIPT MODAL -->
-    <div id="publish-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="glass-panel max-w-lg w-full p-6 rounded-3xl space-y-4 border-cyber-cyan/40">
-            <div class="flex items-center justify-between">
-                <h3 class="text-base font-bold text-white flex items-center space-x-2 space-x-reverse">
-                    <i class="fas fa-upload text-cyber-cyan"></i>
-                    <span>نشر سكربت جديد في المجتمع</span>
-                </h3>
-                <button onclick="closePublishModal()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
-            </div>
-
-            <div class="space-y-3">
-                <div>
-                    <label class="block text-xs text-gray-300 mb-1">عنوان السكربت / الماب:</label>
-                    <input type="text" id="new-script-title" placeholder="مثلاً: Blox Fruits Auto Farm V4" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyber-cyan">
-                </div>
-
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="block text-xs text-gray-300 mb-1">نوع السكربت:</label>
-                        <select id="new-script-type" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyber-cyan">
-                            <option value="nokey">بدون مفتاح (No Key)</option>
-                            <option value="key">بمفتاح (Key System)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-300 mb-1">اسم الماب:</label>
-                        <input type="text" id="new-script-game" placeholder="Blox Fruits" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyber-cyan">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs text-gray-300 mb-1">كود السكربت (Luau):</label>
-                    <textarea id="new-script-code" rows="4" placeholder="loadstring(game:HttpGet(...))()" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-3 py-2 text-xs text-cyber-cyan font-code focus:outline-none focus:border-cyber-cyan resize-none"></textarea>
-                </div>
-
-                <div>
-                    <label class="block text-xs text-gray-300 mb-1">أو ارفع ملف `.lua` من جهازك:</label>
-                    <input type="file" id="lua-file-input" accept=".lua,.txt" onchange="handleLuaFileUpload(event)" class="w-full text-xs text-gray-400 file:mr-4 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-cyber-cyan/20 file:text-cyber-cyan hover:file:bg-cyber-cyan/30">
-                </div>
-            </div>
-
-            <div class="flex items-center space-x-2 space-x-reverse pt-2">
-                <button onclick="submitNewScript()" class="w-full py-2.5 bg-cyber-cyan text-black font-bold text-xs rounded-xl hover:bg-cyber-cyan/90 transition-all">نشر السكربت</button>
-                <button onclick="closePublishModal()" class="w-full py-2.5 bg-cyber-dark text-gray-400 font-bold text-xs rounded-xl hover:bg-white/5 transition-all border border-white/5">إلغاء</button>
-            </div>
+    <footer>
+        <div class="stats-bar">
+            <div class="stat-item"><i class="fa-solid fa-eye"></i> إجمالي الزيارات: <span id="totalVisits">1,482</span></div>
+            <div class="stat-item"><i class="fa-solid fa-users"></i> الزوار الفريدون: <span id="uniqueVisits">523</span></div>
         </div>
-    </div>
-
-    <!-- Footer Stats & Copyright -->
-    <footer class="glass-panel border-t border-cyber-border/30 px-4 py-6 text-center relative z-20">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            
-            <!-- Real Visitors Stats Counter -->
-            <div class="flex items-center space-x-6 space-x-reverse text-xs font-mono">
-                <div class="flex items-center space-x-2 space-x-reverse">
-                    <i class="fas fa-eye text-cyber-cyan"></i>
-                    <span class="text-gray-400">إجمالي الزيارات:</span>
-                    <span id="stat-total-visits" class="text-cyber-cyan font-bold">1,248</span>
-                </div>
-                <div class="flex items-center space-x-2 space-x-reverse">
-                    <i class="fas fa-users text-cyber-neon"></i>
-                    <span class="text-gray-400">الزوار الفريدون:</span>
-                    <span id="stat-unique-visitors" class="text-cyber-neon font-bold">412</span>
-                </div>
-            </div>
-
-            <!-- Copyright -->
-            <div class="text-xs text-gray-400 font-bold">
-                جميع الحقوق محفوظة © <span class="text-cyber-cyan">MOSA DELTA</span> 2026
-            </div>
-
-        </div>
+        <div class="copyright">جميع الحقوق محفوظة © 2026 <b>MOSA DELTA</b></div>
     </footer>
 
-    <!-- Application Logic Script -->
+    <div id="toast" class="toast">تم النسخ بنجاح!</div>
+
     <script>
-        /* =========================================================
-           STATE MANAGEMENT & STORAGE
-           ========================================================= */
-        let state = {
-            currentUser: {
-                username: 'مستخدم MOSA',
-                bio: 'عاشق لروبلوكس وتطوير السكربتات',
-                avatar: 'https://placehold.co/120x120/0d1324/00f3ff?text=MOSA'
-            },
-            scripts: [
-                {
-                    id: 1,
-                    title: 'Blox Fruits Mobile Hub V4',
-                    game: 'Blox Fruits',
-                    type: 'nokey',
-                    author: 'MOSA DELTA',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MosaDelta/Blox/main/script.lua"))()',
-                    likes: 142
-                },
-                {
-                    id: 2,
-                    title: 'Arsenal Aimbot & ESP',
-                    game: 'Arsenal',
-                    type: 'key',
-                    author: 'MOSA DELTA',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MosaDelta/Arsenal/main/key.lua"))()',
-                    likes: 98
-                },
-                {
-                    id: 3,
-                    title: 'MM2 Silent Aim & Fly',
-                    game: 'Murder Mystery 2',
-                    type: 'nokey',
-                    author: 'MOSA DELTA',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MosaDelta/MM2/main/gui.lua"))()',
-                    likes: 215
-                }
-            ]
-        };
-
-        // Initialize App on DOM Ready
-        window.addEventListener('DOMContentLoaded', () => {
-            initVisitorCounter();
-            loadUserProfile();
-            renderScripts();
-            setupChatEnterKey();
-        });
-
-        /* =========================================================
-           NAVIGATION & TABS SWITCHER
-           ========================================================= */
         function switchTab(tabId) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.add('hidden');
-            });
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
 
-            // Show selected tab
-            const targetTab = document.getElementById(tabId);
-            if (targetTab) {
-                targetTab.classList.remove('hidden');
+            const targetSection = document.getElementById(tabId);
+            if (targetSection) {
+                targetSection.classList.add('active');
             }
 
-            // Update Nav Buttons styling
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('text-cyber-cyan', 'bg-cyber-cyan/10', 'border', 'border-cyber-cyan/30');
-                btn.classList.add('text-gray-400');
-            });
+            const activeBtn = document.querySelector(`.nav-btn[data-tab="${tabId}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        /* =========================================================
-           VISITOR COUNTER SYSTEM (FAIR CALCULATION)
-           ========================================================= */
-        function initVisitorCounter() {
-            let totalVisits = parseInt(localStorage.getItem('mosa_total_visits') || '1540');
-            let isUnique = localStorage.getItem('mosa_visitor_id');
-
-            totalVisits++;
-            localStorage.setItem('mosa_total_visits', totalVisits);
-
-            let uniqueCount = parseInt(localStorage.getItem('mosa_unique_count') || '520');
-            if (!isUnique) {
-                const uniqueId = 'user_' + Math.random().toString(36).substr(2, 9);
-                localStorage.setItem('mosa_visitor_id', uniqueId);
-                uniqueCount++;
-                localStorage.setItem('mosa_unique_count', uniqueCount);
+        async function pasteClipboard() {
+            try {
+                const text = await navigator.clipboard.readText();
+                document.getElementById('bypassUrl').value = text;
+                showToast('تم اللصق من الحافظة!');
+            } catch (err) {
+                showToast('يرجى لصق الرابط يدويًا');
             }
-
-            document.getElementById('stat-total-visits').innerText = totalVisits.toLocaleString();
-            document.getElementById('stat-unique-visitors').innerText = uniqueCount.toLocaleString();
         }
 
-        /* =========================================================
-           DELTA KEY BYPASS SIMULATOR / LOGIC
-           ========================================================= */
-        function startBypassProcess() {
-            const input = document.getElementById('bypass-url-input').value.trim();
-            if (!input) {
-                showToast('الرجاء إدخال رابط المفتاح أولاً!', 'error');
+        function startBypass() {
+            const urlInput = document.getElementById('bypassUrl').value;
+            if (!urlInput) {
+                showToast('يرجى إدخال الرابط أولاً!');
                 return;
             }
 
-            const progressContainer = document.getElementById('bypass-progress-container');
-            const progressBar = document.getElementById('bypass-progress-bar');
-            const percentText = document.getElementById('bypass-percent-text');
-            const resultCard = document.getElementById('bypass-result-card');
-            const submitBtn = document.getElementById('bypass-submit-btn');
-
-            progressContainer.classList.remove('hidden');
-            resultCard.classList.add('hidden');
-            submitBtn.disabled = true;
-            submitBtn.classList.add('opacity-50');
-
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += Math.floor(Math.random() * 15) + 5;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(interval);
-                    
-                    setTimeout(() => {
-                        progressContainer.classList.add('hidden');
-                        resultCard.classList.remove('hidden');
-                        submitBtn.disabled = false;
-                        submitBtn.classList.remove('opacity-50');
-                        
-                        // Generate fake key based on URL hash
-                        const generatedKey = 'DELTA_KEY_' + Math.btoa(input).substring(0, 16).toUpperCase();
-                        document.getElementById('extracted-key-text').innerText = generatedKey;
-                        
-                        showToast('تم فك التشفير واستخراج المفتاح بنجاح!');
-                    }, 500);
-                }
-                progressBar.style.width = progress + '%';
-                percentText.innerText = progress + '%';
-            }, 250);
+            showToast('جاري استخراج المفتاح...');
+            setTimeout(() => {
+                document.getElementById('resultBox').style.display = 'block';
+                showToast('تم استخراج المفتاح بنجاح!');
+            }, 1500);
         }
 
-        /* =========================================================
-           MOSA AI CHATBOT INTEGRATION
-           ========================================================= */
-        function setupChatEnterKey() {
-            const chatInput = document.getElementById('ai-user-input');
-            if (chatInput) {
-                chatInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        sendChatMessage();
-                    }
-                });
-            }
+        function copyKey() {
+            const key = document.getElementById('keyOutput').innerText;
+            navigator.clipboard.writeText(key);
+            showToast('تم نسخ المفتاح إلى الحافظة!');
         }
 
-        async function sendChatMessage() {
-            const input = document.getElementById('ai-user-input');
-            const message = input.value.trim();
-            if (!message) return;
+        function copyScriptText(code) {
+            navigator.clipboard.writeText(code);
+            showToast('تم نسخ كود السكربت بنجاح!');
+        }
 
-            const chatMessages = document.getElementById('chat-messages');
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const msg = input.value.trim();
+            if (!msg) return;
 
-            // Append User Message
-            const userMsgHTML = `
-                <div class="flex items-start space-x-3 space-x-reverse justify-end">
-                    <div class="glass-card p-4 rounded-2xl rounded-tl-none max-w-2xl bg-cyber-cyan/10 border-cyber-cyan/30 text-white space-y-1">
-                        <p class="text-xs leading-relaxed">${escapeHTML(message)}</p>
-                    </div>
-                </div>
-            `;
-            chatMessages.insertAdjacentHTML('beforeend', userMsgHTML);
+            const chatMessages = document.getElementById('chatMessages');
+
+            const userDiv = document.createElement('div');
+            userDiv.className = 'msg user';
+            userDiv.innerText = msg;
+            chatMessages.appendChild(userDiv);
+
             input.value = '';
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            // Typing Indicator
-            const typingID = 'typing_' + Date.now();
-            const typingHTML = `
-                <div id="${typingID}" class="flex items-start space-x-3 space-x-reverse">
-                    <div class="w-8 h-8 rounded-lg bg-cyber-purple/30 border border-cyber-purple/50 flex items-center justify-center text-cyber-purple text-xs flex-shrink-0 mt-1">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="glass-card p-4 rounded-2xl rounded-tr-none border-cyber-purple/20">
-                        <span class="text-xs text-cyber-purple animate-pulse">جاري كتابة السكربت والإجابة...</span>
-                    </div>
-                </div>
-            `;
-            chatMessages.insertAdjacentHTML('beforeend', typingHTML);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            // Generate AI Script Response
             setTimeout(() => {
-                document.getElementById(typingID)?.remove();
-                
-                let replyScript = `
--- Script Generated by MOSA DELTA AI
--- Target Request: ${message}
+                const aiDiv = document.createElement('div');
+                aiDiv.className = 'msg ai';
+                aiDiv.innerHTML = `تفضل يا موسى، هذا السكربت الذي طلبته:<div class="code-block">-- Generated by MOSA DELTA AI\nlocal Player = game.Players.LocalPlayer\nprint("Script Loaded Successfully for " .. Player.Name)</div>`;
+                chatMessages.appendChild(aiDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+        }
 
-local ScreenGui = Instance.new("ScreenGui")
-local MainFrame = Instance.new("Frame")
-local Title = Instance.new("TextLabel")
+        function clearChat() {
+            document.getElementById('chatMessages').innerHTML = '<div class="msg ai">أهلاً بك! تم مسح المحادثة. ماذا تريد أن نبرمج الآن؟</div>';
+        }
 
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(15, 23, 42)
-MainFrame.Size = UDim2.new(0, 200, 0, 150)
-MainFrame.Position = UDim2.new(0.5, -100, 0.5, -75)
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
 
-print("MOSA DELTA: Script Loaded Successfully!")
-`;
+        function initVisits() {
+            let total = parseInt(localStorage.getItem('mosa_total_visits') || '1482') + 1;
+            localStorage.setItem('mosa_total_visits', total);
+            document.getElementById('totalVisits').innerText = total.toLocaleString();
 
-                const aiMsgHTML = `
-                    <div class="flex items-start space-x-3 space-x-reverse">
-                        <div class="w-8 h-8 rounded-lg bg-cyber-purple/30 border border-cyber-purple/50 flex items-center justify-center text-cyber-purple text-xs flex-shrink-0 mt-1">
-                            <i class="fas fa-robot"></i>
-                        </div>
-     
+            let isUnique = localStorage.getItem('mosa_visited_before');
+            let unique = parseInt(localStorage.getItem('mosa_unique_visits') || '523');
+            if (!isUnique) {
+                localStorage.setItem('mosa_visited_before', 'true');
+                unique += 1;
+                localStorage.setItem('mosa_unique_visits', unique);
+            }
+            document.getElementById('uniqueVisits').innerText = unique.toLocaleString();
+        }
+
+        window.onload = function() {
+            initVisits();
+        };
+    </script>
+</body>
+</html>
